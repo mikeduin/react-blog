@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
 export const fetchPosts = () => {
@@ -8,10 +9,12 @@ export const fetchPosts = () => {
   };
 };
 
-// Note that this syntax below is identical to that of the above ... when a function is being returned, you can remove the function brackets and the return keyword
+export const fetchUser = (id) => dispatch => {
+  _fetchUser(id, dispatch);
+};
 
-export const fetchUser = (id) => async dispatch => {
+const _fetchUser = _.memoize(async (id, dispatch) => {
   const response = await jsonPlaceholder.get(`/users/${id}`);
 
   dispatch({ type: 'FETCH_USER', payload: response.data})
-};
+});
